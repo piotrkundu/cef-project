@@ -14,6 +14,19 @@ function sendMessage() {
     onFailure: function(error_code, error_message) {}
   });
 }
+function modelUpdate(model) {
+    // Results in a call to the OnQuery method in client_impl.cc.
+    document.getElementById("message").value =  model;
+}
+function cbModelUpdate(model) {
+    // Results in a call to the OnQuery method in client_impl.cc.
+    document.getElementById("message").value =  model;
+}
+function showModel() {
+    // Results in a call to the OnQuery method in client_impl.cc.
+    document.getElementById("message").value =  window.model;
+}
+window.register(cbModelUpdate);
 </script>
 
 </head>
@@ -23,6 +36,7 @@ Message: <input type="text" id="message" value="My Message">
 <br/><input type="button" onclick="sendMessage();" value="Send Message">
 <br/>You should see the reverse of your message below:
 <br/><textarea rows="10" cols="40" id="result"></textarea>
+<br/><input type="button" onclick="showModel();" value="Show Model">
 </form>
 </body>
 </html>

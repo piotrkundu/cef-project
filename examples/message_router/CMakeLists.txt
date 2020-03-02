@@ -12,6 +12,7 @@ set(EXAMPLE_SRCS
   app_browser_impl.cc
   client_impl.cc
   client_impl.h
+#       MyV8Handler.cc
   )
 set(EXAMPLE_SRCS_WINDOWS
   resource_util_win_impl.cc

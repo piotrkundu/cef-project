@@ -38,7 +38,7 @@ class MessageHandler : public CefMessageRouterBrowserSide::Handler {
       // Reverse the string and return.
       std::string result = message_name.substr(sizeof(kTestMessageName));
       std::reverse(result.begin(), result.end());
-      callback->Success(result);
+      callback->Success(message_name);
       return true;
     }
 
