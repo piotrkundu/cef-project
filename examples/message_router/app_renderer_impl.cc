@@ -39,7 +39,7 @@ namespace message_router {
             CefV8ValueList args;
             args.push_back(CefV8Value::CreateString("Piotrs_Callback"));
             CefRefPtr<CefV8Value> retval2;
-            if (retval2 = callback_func_->ExecuteFunctionWithContext(callback_context_, NULL, args)) {
+            if ((retval2 = callback_func_->ExecuteFunctionWithContext(callback_context_, NULL, args))) {
                 if (callback_func_.get()->GetException().get()) {
                     // Execution threw an exception.
                     return false;
@@ -53,6 +53,7 @@ namespace message_router {
         // Provide the reference counting implementation for this class.
     IMPLEMENT_REFCOUNTING(MyV8Handler);
     };
+    /*
 // Implementation of CefApp for the renderer process.
 class RendererApp : public CefApp, public CefRenderProcessHandler {
  public:
@@ -62,7 +63,12 @@ class RendererApp : public CefApp, public CefRenderProcessHandler {
   CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE {
     return this;
   }
-
+    void OnBrowserCreated(CefRefPtr<CefBrowser> browser,
+                                  CefRefPtr<CefDictionaryValue> extra_info)OVERRIDE {
+        auto frame = browser->GetMainFrame();
+        CefString runThisFromCef("window.runThisFromCef('{\"name\":\"Player Name\",\"xuid\":\"xuid-'+ Math.round(Math.random() * 10e10) + '\",\"url\":\"avatar.jpg\",\"tag\":\"Hello World\"}');");
+        frame->ExecuteJavaScript(runThisFromCef, frame->GetURL(), 0);
+    }
   // CefRenderProcessHandler methods:
   void OnWebKitInitialized() OVERRIDE {
     // Create the renderer-side router for query handling.
@@ -73,21 +79,28 @@ class RendererApp : public CefApp, public CefRenderProcessHandler {
   void OnContextCreated(CefRefPtr<CefBrowser> browser,
                         CefRefPtr<CefFrame> frame,
                         CefRefPtr<CefV8Context> context) OVERRIDE {
-
       CefRefPtr<CefV8Value> windowObj = context->GetGlobal();
 
       //1. Execute JavaScript
-      frame->ExecuteJavaScript("modelUpdate('{json:{modelUpdate=text}}');", frame->GetURL(), 0);
-
+      CefString runThisFromCef("runThisFromCef2('{\"name\":\"Player Name\",\"xuid\":\"xuid-'+ Math.round(Math.random() * 10e10) + '\",\"url\":\"avatar.jpg\",\"tag\":\"Hello World\"}');");
+      frame->ExecuteJavaScript(runThisFromCef, frame->GetURL(), 0);
+      //Math.round(Math.random() * 10e10)
+//      frame->ExecuteJavaScript("modelUpdate('{json:{modelUpdate=text}}');", frame->GetURL(), 0);
+// window.runThisFromCef('{"name":"Player Name","xuid":"xuid-'+ Math.round(Math.random() * 10e10) + '","url":"avatar.jpg","tag":"Hello World"}');
+// window.runThisFromCef('{'name':'Player Name','xuid':'xuid-12314345','url':'avatar.jpg','tag':'Hello World'}')
+// window.runThisFromCef('{"name":"Player Name","xuid":"xuid-12314345","url":"avatar.jpg","tag":"Hello World"}')
+// window.runThisFromCef('{"name":"Player Name","xuid":"xuid-12314345","url":"avatar.jpg","tag":"Hello World"}')
       //2. Add JS value
       // Create a new V8 string value. See the "Basic JS Types" section below.
       CefRefPtr<CefV8Value> str = CefV8Value::CreateString("{json:{window.model=text}}");
       // Add the string to the window object as "window.model". See the "JS Objects" section below.
-      windowObj->SetValue("model", str, V8_PROPERTY_ATTRIBUTE_NONE);
-
+      windowObj->SetValue("model2PIOTR_ ", str, V8_PROPERTY_ATTRIBUTE_NONE);
+      LOG(INFO) << "model2 created"<< std::endl;
+      LOG(ERROR) << "ERROR: model2 created"<< std::endl;
       // Add the "myfunc" and register function to the "window" object.
       windowObj->SetValue("myfunc", CefV8Value::CreateFunction("myfunc", handler_.get()), V8_PROPERTY_ATTRIBUTE_NONE);
       windowObj->SetValue("register",CefV8Value::CreateFunction("register", handler_.get()),V8_PROPERTY_ATTRIBUTE_NONE);
+      fprintf(stderr,"%s", "----PIOTR WAS HERE----\n");
     message_router_->OnContextCreated(browser, frame, context);
   }
 
@@ -105,6 +118,16 @@ class RendererApp : public CefApp, public CefRenderProcessHandler {
     return message_router_->OnProcessMessageReceived(browser, frame,
                                                      source_process, message);
   }
+  void OnUncaughtException(CefRefPtr<CefBrowser> browser,
+                                     CefRefPtr<CefFrame> frame,
+                                     CefRefPtr<CefV8Context> context,
+                                     CefRefPtr<CefV8Exception> exception,
+                                     CefRefPtr<CefV8StackTrace> stackTrace)OVERRIDE {
+      //browser->ReloadIgnoreCache();
+      auto str = exception->GetMessageW().ToString();
+      LOG(ERROR) << "ERROR: OnUncaughtException created"<< std::endl;
+      printf("PIOTR OnUncaughtException %s", str.c_str());
+  }
 
  private:
   // Handles the renderer side of query routing.
@@ -113,13 +136,18 @@ class RendererApp : public CefApp, public CefRenderProcessHandler {
 IMPLEMENT_REFCOUNTING(RendererApp);
   DISALLOW_COPY_AND_ASSIGN(RendererApp);
 };
-
+*/
 }  // namespace message_router
 
 namespace shared {
 
 CefRefPtr<CefApp> CreateRendererProcessApp() {
-  return new message_router::RendererApp();
+    int i = 10;
+    int k = 0;
+    k = i/k;
+    ++k;++i;
+    return nullptr;
+  //return new message_router::RendererApp();
 }
 
 }  // namespace shared

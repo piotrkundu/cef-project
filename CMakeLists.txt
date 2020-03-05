@@ -25,6 +25,7 @@ set(CEF_VERSION "79.1.27+gd2449e5+chromium-79.0.3945.117")
 
 # Determine the platform.
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+  set(CEF_VERSION "80.0.7+gd9fd476+chromium-80.0.3987.132")
   set(CEF_PLATFORM "macosx64")
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
   if(CMAKE_SIZEOF_VOID_P MATCHES 8)

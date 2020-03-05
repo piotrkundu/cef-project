@@ -9,7 +9,8 @@
 
 namespace shared {
 
-const char kTestOrigin[] = "https://example.com/";
+//    const char kTestOrigin[] = "http://localhost:8080/"; // minecraft-ui
+    const char kTestOrigin[] = "http://localhost:3000/"; //overlay-ui
 
 namespace {
 

@@ -12,7 +12,12 @@ namespace message_router {
 namespace {
 
 std::string GetStartupURL() {
-  return shared::kTestOrigin + std::string("message_router.html");
+//    return std::string("file:///C:/Users/v-pikund/_git/minecraft-ui/dist/hbui/index.html");
+    return shared::kTestOrigin + std::string("index.html");// overlay-ui
+//    return shared::kTestOrigin + std::string("hbui/index.html"); //minecraft-ui
+//    return std::string("hbui/index.html");
+//    return shared::kTestOrigin + std::string("message_router.html");
+//
 }
 
 }  // namespace
@@ -37,6 +42,10 @@ class BrowserApp : public CefApp, public CefBrowserProcessHandler {
       // Disable the macOS keychain prompt. Cookies will not be encrypted.
       command_line->AppendSwitch("use-mock-keychain");
 #endif
+        command_line->AppendSwitch("force-devtools-available");
+        command_line->AppendSwitch("auto-open-devtools-for-tabs");
+        command_line->AppendSwitch("disable-developer-tools=false");
+
     }
   }
 
@@ -44,8 +53,13 @@ class BrowserApp : public CefApp, public CefBrowserProcessHandler {
   void OnContextInitialized() OVERRIDE {
     // Create the browser window.
     const CefString& startup_url = GetStartupURL();
-    shared::CreateBrowser(new Client(startup_url), startup_url,
-                          CefBrowserSettings());
+      CefBrowserSettings settings;
+      settings.windowless_frame_rate = 120;
+      fprintf(stderr,"%s", "PIOTR WAS HERE\n");
+      LOG(INFO) << "BrowserApp::OnContextInitialized called"<< std::endl;
+      LOG(ERROR) << "ERROR::OnContextInitialized called"<< std::endl;
+
+      shared::CreateBrowser(new Client(startup_url), startup_url, settings);
   }
 
  private:

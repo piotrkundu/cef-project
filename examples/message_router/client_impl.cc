@@ -52,7 +52,7 @@ class MessageHandler : public CefMessageRouterBrowserSide::Handler {
 };
 
 }  // namespace
-
+static int has_devtools = 0;
 Client::Client(const CefString& startup_url)
     : startup_url_(startup_url), browser_ct_(0) {}
 
@@ -86,6 +86,18 @@ void Client::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
   }
 
   browser_ct_++;
+    CefWindowInfo windowInfo;
+    CefBrowserSettings settings;
+    CefRefPtr<CefClient> client;
+#if defined(OS_WIN)
+    windowInfo.SetAsPopup(browser->GetHost()->GetWindowHandle(), "DevTools");
+#endif
+    if (has_devtools == 0) {
+        //browser->GetHost()->ShowDevTools(windowInfo, browser->GetHost()->GetClient(), settings, CefPoint());
+        has_devtools = 1;
+    }
+
+    //	window.cefQuery({request: 'MessageRouterTest: Random shit here', onSuccess: (response) => console.log('OK:', response),onFailure: (errorCode) =>  console.log('FAIL:', errorCode)})
 
   // Call the default shared implementation.
   shared::OnAfterCreated(browser);

@@ -69,8 +69,8 @@ class Client : public CefClient,
 
   // Track the number of browsers using this Client.
   int browser_ct_;
-
-  IMPLEMENT_REFCOUNTING(Client);
+  //static int has_devtools;
+IMPLEMENT_REFCOUNTING(Client);
   DISALLOW_COPY_AND_ASSIGN(Client);
 };
 

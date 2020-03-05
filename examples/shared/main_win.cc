@@ -70,8 +70,12 @@ int APIENTRY wWinMain(HINSTANCE hInstance) {
 #if !defined(CEF_USE_SANDBOX)
   settings.no_sandbox = true;
 #endif
+        settings.remote_debugging_port = 9000;
+        settings.uncaught_exception_stack_size = 10;
+        settings.windowless_rendering_enabled = true;
+        settings.background_color = (cef_color_t) 0x00FFFFFF;
 
-  // Initialize CEF for the browser process. The first browser instance will be
+        // Initialize CEF for the browser process. The first browser instance will be
   // created in CefBrowserProcessHandler::OnContextInitialized() after CEF has
   // been initialized.
   CefInitialize(main_args, settings, app, sandbox_info);
